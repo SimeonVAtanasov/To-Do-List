@@ -43,24 +43,29 @@
       </div>
 
       <main id="main">
-        <h2>Your task list is empty</h2>
-        <ul id="list"></ul>
       </main>
 
       <footer>
         <h3>By Simo.Atanasov</h3>
       </footer>
     </div>
-
+    
     <script id="taskTemplate" type="text/x-handlebars-template">
-      {{#each task}}
-      <li id="{{task.id}}"  class="task">
-        {{task.title}}
-        <button class="fas fa-plus"></button>
-      </li>
+      {{#if tasksToDo}}
+      <ul id="list">
+        {{#each tasksToDo}}
+        <li id="{{id}}" class="taskToDo">
+          <p>{{title}}</p>
+          <button ></button>
+        </li>
+        {{/each}}
+      </ul>
+      {{else}}
+      <h2>Your task list is empty</h2>
+      {{/if}}
     </script>
-
-
+    
+    <script src="./node_modules/handlebars/dist/handlebars.min.js"></script>
     <script src="./assets/constants.js"></script>
     <script src="./assets/utils.js"></script>
     <script src="./assets/ToDoListView.js"></script>

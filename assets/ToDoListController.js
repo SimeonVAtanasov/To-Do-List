@@ -7,6 +7,16 @@
     ADD_BUTTON.addEventListener('click', onclick)
     SUBMIT.addEventListener('click', addNewTask)
 
+    function showTasks() {
+        const source = document.getElementById("taskTemplate").innerHTML;
+        const template = Handlebars.compile(source);
+        const html = template(taskManager);
+
+        let container = getById('main')
+        container.innerHTML = html;
+    };
+
+    showTasks();
 
 
     function onclick(event) {
@@ -46,20 +56,13 @@
 
 
             ++taskCounter;
+
             FORM.reset();
 
             taskManager.addTask(currentTask)
+            console.log(taskManager);
 
-            const showTasks = (function () {
-                const source = document.getElementById("taskTemplate").innerHTML;
-                const template = Handlebars.compile(source);
-                const html = template(taskManager.tasksToDo);
-
-                let container = getById('list')
-                container.innerHTML = html;
-
-            })();
-
+            showTasks();
         }
     }
 

@@ -14,8 +14,8 @@ class TaskListManager {
 
     removeTask(id) {
         if (this.tasksToDo.some(el => el.id === id)) {
-            let index = this.tasksToDo.findIndex(el => el.id === id)
-            let deletedTask = this.tasksToDo.splice(index,1);
+            this.tasksToDo = this.tasksToDo.filter(el => el.id !== id)
+
             this.doneTasks.push(deletedTask[0])
         }
     }

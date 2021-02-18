@@ -80,9 +80,9 @@ form input::placeholder {
   color: rgb(255, 255, 255);
 }
 
-#list {
+/* #list {
   display: none;
-}
+} */
 
 footer {
   position: fixed;
