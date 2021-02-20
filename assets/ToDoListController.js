@@ -1,7 +1,17 @@
 (() => {
-    let taskManager = new TaskListManager()
+    unfade(BODY, "flex", 20)
+    let taskManager = function addManager() {
+        if (localStorage.getItem("localTaskManager")) {
 
-    let taskCounter = 0;
+            let localTaskManagerStr = localStorage.getItem("localTaskManager");
+            let localTaskManager = JSON.parse(localTaskManagerStr);
+
+            return new TaskListManager(localTaskManager.tasksToDo, localTaskManager.counter)
+        }
+
+        return new TaskListManager();
+    }();
+
     let isShowingForm = false;
 
     ADD_BUTTON.addEventListener('click', onclick)
@@ -14,19 +24,60 @@
 
         let container = getById('main')
         container.innerHTML = html;
+
     };
 
+    function addFuncToDeleteBtn() {
+        let arrFromDeleteButtons = Array.from(document.getElementsByName("deleteButton"))
+
+        arrFromDeleteButtons.forEach(el => el.addEventListener("click", function (ev) {
+            ev.stopPropagation();
+
+            taskManager.removeTask(Number(el.id));
+            showTasks();
+            addFuncToDeleteBtn();
+            toggleClasses();
+            setTasks();
+        }))
+    }
+
+    function setTasks(obj) {
+        const localTaskManager = JSON.stringify(taskManager)
+        localStorage.setItem('localTaskManager', localTaskManager)
+    }
+
+    function changeClassName(index) {
+        let currentTaskToChange = taskManager.tasksToDo.findIndex(el => el["id"] === parseInt(index))
+        taskManager.tasksToDo[currentTaskToChange].classType = "taskToDo doneTask"
+    }
+
+    function toggleClasses() {
+        let arrOfListEl = Array.from(document.getElementsByClassName("taskToDo"))
+        arrOfListEl.forEach(el => el.addEventListener("click", function (ev) {
+
+            el.classList.toggle("doneTask");
+
+            taskIndex = ev.target.id;
+
+            changeClassName(taskIndex);
+            setTasks();
+        }))
+    }
+
     showTasks();
+    addFuncToDeleteBtn();
+    toggleClasses();
 
 
     function onclick(event) {
         if (!isShowingForm) {
             ADD_BUTTON.innerHTML = 'Close Form <i class="fas fa-minus"></i>'
-            showElement(FORM_BOX);
+            unfade(FORM_BOX);
             isShowingForm = true
         } else {
             ADD_BUTTON.innerHTML = 'Add New <i class="fas fa-plus">'
-            hideElement(FORM_BOX)
+            fade(FORM_BOX)
+
             document.getElementById("input").placeholder = "Type Here"
             isShowingForm = false;
         };
@@ -50,30 +101,24 @@
 
         if (isValid) {
             let title = getById("input").value;
-            let id = taskCounter;
+            let id = taskManager.counter;
 
             let currentTask = new Task(title, id);
 
-
-            ++taskCounter;
+            ++taskManager.counter;
 
             FORM.reset();
 
             taskManager.addTask(currentTask)
-            console.log(taskManager);
 
             showTasks();
-        }
-    }
 
-    function removeTask(event) {
-        let target = event.target.parentElement.parentElement;
-        let list = document.querySelector("ul");
-        list.removeChild(target);
+            addFuncToDeleteBtn();
 
-        if (list.childElementCount === 0) {
-            document.querySelector("main  h2").style.display = 'block';
-            list.style.display = 'none'
+
+            toggleClasses();
+
+            setTasks()
         }
     }
 

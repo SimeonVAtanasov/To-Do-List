@@ -54,9 +54,9 @@
       {{#if tasksToDo}}
       <ul id="list">
         {{#each tasksToDo}}
-        <li id="{{id}}" class="taskToDo">
+        <li id="{{id}}" class="{{classType}}">
           <p>{{title}}</p>
-          <button ></button>
+          <button id="{{id}}" name="deleteButton" class="far fa-trash-alt button" aria-hidden="true"></button>
         </li>
         {{/each}}
       </ul>
