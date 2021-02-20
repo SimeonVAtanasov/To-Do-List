@@ -3,11 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+    name="description"
+    content="Keep your tasks organized! Add, mark and remove your daily tasks from your PC!"
+  />
+  <link rel="icon" type="image/x-icon" href="./assets/images/favicon.ico" />
     <link rel="stylesheet" href="./assets/ToDoListStyleView.css" />
     <script
       src="https://kit.fontawesome.com/b196eacd06.js"
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js
+    "></script>
 
     <title>TO DO LIST</title>
   </head>
@@ -42,29 +49,37 @@
         </form>
       </div>
 
-      <main id="main">
-      </main>
+      <main id="main"></main>
 
       <footer>
         <h3>By Simo.Atanasov</h3>
       </footer>
     </div>
-    
+
     <script id="taskTemplate" type="text/x-handlebars-template">
       {{#if tasksToDo}}
-      <ul id="list">
-        {{#each tasksToDo}}
-        <li id="{{id}}" class="{{classType}}">
-          <p>{{title}}</p>
-          <button id="{{id}}" name="deleteButton" class="far fa-trash-alt button" aria-hidden="true"></button>
-        </li>
-        {{/each}}
-      </ul>
+        <ul id="list">
+          {{#each tasksToDo}}
+            <li id="{{id}}" class="{{classType}}">
+              <p>
+                {{title}}
+              </p>
+              <button
+                id="{{id}}"
+                name="deleteButton"
+                class="far fa-trash-alt button"
+                aria-hidden="true"
+              ></button>
+            </li>
+          {{/each}}
+        </ul>
       {{else}}
-      <h2>Your task list is empty</h2>
+        <h2>
+          Your task list is empty
+        </h2>
       {{/if}}
     </script>
-    
+
     <script src="./node_modules/handlebars/dist/handlebars.min.js"></script>
     <script src="./assets/constants.js"></script>
     <script src="./assets/utils.js"></script>
